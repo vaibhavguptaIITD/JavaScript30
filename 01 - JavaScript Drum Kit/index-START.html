@@ -58,6 +58,27 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  let keys = Array.from(document.getElementsByClassName('key'));
+  let audioElems = Array.from(document.getElementsByTagName('audio'));
+
+  document.onkeypress = function(event){
+    let key = event.which || event.keyCode;
+    let targetAudio = audioElems.filter((audioElem) => +audioElem.getAttribute('data-key') === key)[0];
+    targetAudio.currentTime = 0;
+    targetAudio.play();
+
+  }
+  audioElems.forEach(function(audioElem){
+    let key = audioElem.getAttribute('data-key');
+    let targetKeyElem = keys.filter((keyElem) => keyElem.getAttribute('data-key') === key)[0];
+    
+    audioElem.onplay = function(){
+      targetKeyElem.classList.add('playing');
+    };
+    audioElem.onended = function(){
+      targetKeyElem.classList.remove('playing');
+    };
+  });
 
 </script>
 
