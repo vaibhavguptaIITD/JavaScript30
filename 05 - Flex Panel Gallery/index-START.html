@@ -24,6 +24,7 @@
     .panels {
       min-height:100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
@@ -41,6 +42,10 @@
       font-size: 20px;
       background-size:cover;
       background-position:center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
 
@@ -54,6 +59,10 @@
       margin:0;
       width: 100%;
       transition:transform 0.5s;
+      display:flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1 0 auto;
     }
 
     .panel p {
@@ -67,8 +76,14 @@
     }
 
     .panel.open {
+      flex: 5;
       font-size:40px;
     }
+
+    .panel > *:first-child { transform: translateY(-100%); }
+    .panel.open-active > *:first-child { transform: translateY(0); }
+    .panel > *:last-child { transform: translateY(100%); }
+    .panel.open-active > *:last-child { transform: translateY(0); }
 
   </style>
 
@@ -102,6 +117,18 @@
   </div>
 
   <script>
+    var panels = document.querySelectorAll('.panel');
+    panels.forEach(panel => {
+      panel.addEventListener('click', function(){
+        this.classList.toggle('open');
+      });
+      panel.addEventListener('transitionend', function(event){
+        if(event.propertyName.includes('flex')){
+          this.classList.toggle('open-active');
+        }
+      });
+    });
+
 
   </script>
 
